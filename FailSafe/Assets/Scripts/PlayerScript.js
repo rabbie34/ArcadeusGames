@@ -45,5 +45,5 @@ function FixedUpdate ()
 		transform.position = Vector3(-transform.position.x,transform.position.y,0);
 	}
 	
-	transform.Translate(moveSpeed * Time.deltaTime,0,0);
+	transform.Translate(moveSpeed * Time.deltaTime,0,0,Space.World);
 }
