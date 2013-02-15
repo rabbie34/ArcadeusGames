@@ -13,7 +13,9 @@ function OnCollisionEnter (hit : Collision)
 	
 	if(hit.gameObject.tag == "Player")
 	{
+		hit.gameObject.GetComponent(PlayerAnimationScript).DieSprite();
 		Destroy(hit.gameObject);
+		
 		//Debug.Log("Player died");
 	}
 	if(hit.gameObject.tag == "Platform")

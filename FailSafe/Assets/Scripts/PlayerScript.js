@@ -5,20 +5,16 @@ var moveAcc = 1.0f;
 var moveSpeed : float;
 private var screenEdge = 1.4f;
 
-private var playerObj : GameObject;
 
-public var RunningSprite : Texture2D;
-public var StandingSprite : Texture2D;
-public var FallingSprite : Texture2D;	
-public var JumpingSprite : Texture2D;
-public var DeathSprite : Texture2D;
+// ANIMATION
+public var playerAnimation : PlayerAnimationScript;
 
 private var Facing : String;
 
 function Start () {
 	
 	Facing = "Right";
-	playerObj = gameObject;
+	playerAnimation = this.GetComponent(PlayerAnimationScript);
 
 }
 
@@ -28,14 +24,22 @@ function Update () {
 	{
 		//gameObject.transform.Translate(moveAcc*Time.deltaTime,0,0);
 		moveSpeed = moveSpeed +  (moveAcc * Time.deltaTime*40);
-		Facing = "Right";
+		playerAnimation.Facing = "Right";
+		if ( rigidbody.velocity.y > -1 )
+		{
+			playerAnimation.RunSprite();
+		}
 	}
 	
 	if (Input.GetKey(KeyCode.A))
 	{
 		//gameObject.transform.Translate(-moveAcc*Time.deltaTime,0,0);
 		moveSpeed = moveSpeed - (moveAcc * Time.deltaTime*40);
-		Facing = "Left";
+		playerAnimation.Facing = "Left";
+		if ( rigidbody.velocity.y > -1 )
+		{
+			playerAnimation.RunSprite();
+		}
 	}
 	
 	if (moveSpeed > maxMoveSpeed )
@@ -59,10 +63,14 @@ function FixedUpdate ()
 	{
 		transform.position = Vector3(-transform.position.x,transform.position.y,0);
 	}
-	
-	if ( Facing.Equals("Left"))
+	if ( rigidbody.velocity.y < -1 )
 	{
-		//playerObj.renderer.material.mainTexture
+		playerAnimation.FallSprite();
 	}
+	if ( rigidbody.velocity.y >= 0 && rigidbody.velocity.x > -1.0 && rigidbody.velocity.x < 1.0 )
+	{
+		playerAnimation.StandSprite();
+	}
+	
 	transform.Translate(moveSpeed * Time.deltaTime,0,0,Space.World);
 }
