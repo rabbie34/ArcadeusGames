@@ -67,7 +67,7 @@ function FixedUpdate ()
 	{
 		playerAnimation.FallSprite();
 	}
-	if ( rigidbody.velocity.y >= 0 && rigidbody.velocity.x > -1.0 && rigidbody.velocity.x < 1.0 )
+	if ( rigidbody.velocity.y >= -0.5 && rigidbody.velocity.x > -1.0 && rigidbody.velocity.x < 1.0 )
 	{
 		playerAnimation.StandSprite();
 	}
