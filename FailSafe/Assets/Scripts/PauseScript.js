@@ -25,3 +25,8 @@ function Update ()
 	}
 	
 }
+
+function isPaused ()
+{
+	return gamePaused;
+}

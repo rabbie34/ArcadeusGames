@@ -8,6 +8,7 @@ private var screenEdge = 1.4f;
 
 // ANIMATION
 public var playerAnimation : PlayerAnimationScript;
+private var pauseScript : PauseScript;
 
 private var Facing : String;
 
@@ -15,41 +16,47 @@ function Start () {
 	
 	Facing = "Right";
 	playerAnimation = this.GetComponent(PlayerAnimationScript);
+	pauseScript = GameObject.Find("Main Camera").GetComponent(PauseScript);
 
 }
 
 function Update () {
 	
-	if (Input.GetKey(KeyCode.D))
+	if ( pauseScript.isPaused() == false )
 	{
-		//gameObject.transform.Translate(moveAcc*Time.deltaTime,0,0);
-		moveSpeed = moveSpeed +  (moveAcc * Time.deltaTime*40);
-		playerAnimation.Facing = "Right";
-		if ( rigidbody.velocity.y > -1 )
+	
+		if (Input.GetKey(KeyCode.D))
 		{
-			playerAnimation.RunSprite();
+			//gameObject.transform.Translate(moveAcc*Time.deltaTime,0,0);
+			moveSpeed = moveSpeed +  (moveAcc * Time.deltaTime*40);
+			playerAnimation.Facing = "Right";
+			if ( rigidbody.velocity.y > -1 )
+			{
+				playerAnimation.RunSprite();
+			}
+		}
+	
+		if (Input.GetKey(KeyCode.A))
+		{
+			//gameObject.transform.Translate(-moveAcc*Time.deltaTime,0,0);
+			moveSpeed = moveSpeed - (moveAcc * Time.deltaTime*40);
+			playerAnimation.Facing = "Left";
+			if ( rigidbody.velocity.y > -1 )
+			{
+				playerAnimation.RunSprite();
+			}
+		}
+	
+		if (moveSpeed > maxMoveSpeed )
+		{
+			moveSpeed = maxMoveSpeed;
+		}
+		if (moveSpeed < -maxMoveSpeed )
+		{
+			moveSpeed = -maxMoveSpeed;
 		}
 	}
 	
-	if (Input.GetKey(KeyCode.A))
-	{
-		//gameObject.transform.Translate(-moveAcc*Time.deltaTime,0,0);
-		moveSpeed = moveSpeed - (moveAcc * Time.deltaTime*40);
-		playerAnimation.Facing = "Left";
-		if ( rigidbody.velocity.y > -1 )
-		{
-			playerAnimation.RunSprite();
-		}
-	}
-	
-	if (moveSpeed > maxMoveSpeed )
-	{
-		moveSpeed = maxMoveSpeed;
-	}
-	if (moveSpeed < -maxMoveSpeed )
-	{
-		moveSpeed = -maxMoveSpeed;
-	}
 
 }
 
@@ -63,7 +70,7 @@ function FixedUpdate ()
 	{
 		transform.position = Vector3(-transform.position.x,transform.position.y,0);
 	}
-	if ( rigidbody.velocity.y < -1 )
+	if ( rigidbody.velocity.y < -0.5 )
 	{
 		playerAnimation.FallSprite();
 	}

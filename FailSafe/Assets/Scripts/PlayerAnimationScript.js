@@ -7,8 +7,12 @@ public var RunningSprite : Texture2D;
 public var JumpingSprite : Texture2D;
 public var FallingSprite : Texture2D;
 public var DeathSprite : Texture2D;
+private var AnimationScript : Animation2D;
+
 
 function Start () {
+	
+	AnimationScript = this.GetComponent(Animation2D);
 
 }
 
@@ -31,6 +35,7 @@ function FixedUpdate ()
 function StandSprite ()
 {
 	gameObject.renderer.material.mainTexture = StandingSprite;
+	//AnimationScript.
 }
 
 function RunSprite ()
