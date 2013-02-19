@@ -4,6 +4,8 @@ var Speed : float;
 
 function Start () {
 
+	Speed = GameObject.Find("Spawner").GetComponent(SpawnerScript).platformSpeed;
+
 }
 
 function Update () {
