@@ -11,6 +11,10 @@ var rowNumber = 0;
 var timer = 0;
 private var RandomNumber : int = 10;
 
+var correctNumbers : int[];
+
+var maxNumbers : int;
+
 function Start () {
 
 	if (RandomNumber == 10)
@@ -30,16 +34,19 @@ function Start () {
 
 }
 
-function setNumber ( number : int )
+function setNumber ( number : int , maxNumbers : int)
 {
 
 	RandomNumber = number;
+	this.maxNumbers = maxNumbers;
 	
 }
 
 function Update () {
 
 }
+
+
 
 function FixedUpdate ()
 {

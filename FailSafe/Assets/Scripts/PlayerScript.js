@@ -4,6 +4,9 @@ var maxMoveSpeed = 3.0f;
 var moveAcc = 1.0f;
 var moveSpeed : float;
 private var screenEdge = 1.4f;
+private var buildTarget : String = "Keyboard";
+private var tilt : Vector3 = Vector3.zero;
+private var previousPosition : Vector3;
 
 
 // ANIMATION
@@ -13,6 +16,10 @@ private var pauseScript : PauseScript;
 private var Facing : String;
 
 function Start () {
+	
+	#if UNITY_ANDROID
+    buildTarget = "Android";
+  	#endif
 	
 	Facing = "Right";
 	playerAnimation = this.GetComponent(PlayerAnimationScript);
@@ -24,29 +31,46 @@ function Update () {
 	
 	if ( pauseScript.isPaused() == false )
 	{
-	
-		if (Input.GetKey(KeyCode.D))
+		if (buildTarget == "Keyboard")
 		{
-			//gameObject.transform.Translate(moveAcc*Time.deltaTime,0,0);
-			moveSpeed = moveSpeed +  (moveAcc * Time.deltaTime*40);
-			playerAnimation.Facing = "Right";
-			if ( rigidbody.velocity.y > -1 )
+			if (Input.GetKey(KeyCode.D))
 			{
+				//gameObject.transform.Translate(moveAcc*Time.deltaTime,0,0);
+				moveSpeed = moveSpeed +  (moveAcc * Time.deltaTime*40);
+				playerAnimation.Facing = "Right";
+				if ( rigidbody.velocity.y > -1 )
+				{
+					playerAnimation.RunSprite();
+				}
+			}
+	
+			if (Input.GetKey(KeyCode.A))
+			{
+				//gameObject.transform.Translate(-moveAcc*Time.deltaTime,0,0);
+				moveSpeed = moveSpeed - (moveAcc * Time.deltaTime*40);
+				playerAnimation.Facing = "Left";
+				if ( rigidbody.velocity.y > -1 )
+				{
+					playerAnimation.RunSprite();
+				}
+			}
+	
+			
+		}
+		if (buildTarget == "Android")
+		{
+			moveSpeed = (moveSpeed + (moveAcc * Time.deltaTime*40))*tilt.z;
+			if(moveSpeed > 0.2 && gameObject.transform.rigidbody.velocity.y > -1)
+			{
+				playerAnimation.Facing = "Right";
+				playerAnimation.RunSprite();
+			} 
+			if(moveSpeed < 0.2 && gameObject.transform.rigidbody.velocity.y > -1)
+			{
+				playerAnimation.Facing = "Left";
 				playerAnimation.RunSprite();
 			}
 		}
-	
-		if (Input.GetKey(KeyCode.A))
-		{
-			//gameObject.transform.Translate(-moveAcc*Time.deltaTime,0,0);
-			moveSpeed = moveSpeed - (moveAcc * Time.deltaTime*40);
-			playerAnimation.Facing = "Left";
-			if ( rigidbody.velocity.y > -1 )
-			{
-				playerAnimation.RunSprite();
-			}
-		}
-	
 		if (moveSpeed > maxMoveSpeed )
 		{
 			moveSpeed = maxMoveSpeed;
