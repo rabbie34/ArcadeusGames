@@ -3,7 +3,7 @@
 var numbers: int[];
 
 var amountOfNumbers : int;
-var currentNumber = 1;
+var currentNumber = 0;
 public var displayNumberPrefab : GameObject;
 public var missedNumberPrefab : GameObject;
 
@@ -24,6 +24,11 @@ function newNumber (incNumber : int)
 	newNumber.GetComponent(NumberScript).setNumber(incNumber);
 	DontDestroyOnLoad(newNumber);
 	currentNumber++;
+	if (currentNumber >= amountOfNumbers)
+	{
+		Application.LoadLevel("Key Pad");
+	}
+	
 }
 
 function missedNumber (incNumber : int)
@@ -33,4 +38,8 @@ function missedNumber (incNumber : int)
 	newNumber.GetComponent(NumberScript).setNumber(incNumber);
 	DontDestroyOnLoad(newNumber);
 	currentNumber++;
+	if (currentNumber >= amountOfNumbers)
+	{
+		Application.LoadLevel("Key Pad");
+	}
 }

@@ -15,7 +15,7 @@ function Start () {
 
 	if (RandomNumber == 10)
 	{
-		RandomNumber = Random.Range(0,10);
+		RandomNumber = Random.Range(1,10);
 	}
 
 	rowNumber = RandomNumber;
@@ -25,7 +25,7 @@ function Start () {
 	var offset : Vector2 = new Vector2((uIndex+columnNumber)*size.x,(1.0f-size.y)-(vIndex+rowNumber)*size.y);
 	
 	renderer.material.SetTextureOffset ("_MainTex", offset);
-    renderer.material.SetTextureScale ("_MainTex", size);	
+    renderer.material.SetTextureScale ("_MainTex", size);
 	
 
 }

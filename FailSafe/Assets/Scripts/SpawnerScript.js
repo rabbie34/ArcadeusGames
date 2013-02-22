@@ -41,7 +41,7 @@ function FixedUpdate ()
 		
 		var Platform : GameObject = GameObject.Instantiate(platformPrefab,
 		
-		 Vector3(-2.5 - Gap/2 + Random.Range(-1.25f,1.25f),-0.5f,0),
+		 Vector3(-2.5 - Gap/2 + Random.Range(-1.33f + Gap/2,1.33f - Gap/2),-0.5f,0),
 		 
 		 Quaternion.identity);
 		 if (numberSpawning == true)
