@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerScript.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SpawnerScript.js">
     <Files>
-      <File FileName="Assets\Scripts\PlayerScript.js" Line="63" Column="16" />
+      <File FileName="Assets\Scripts\SpawnerScript.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

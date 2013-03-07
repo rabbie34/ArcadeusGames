@@ -1,4 +1,7 @@
 #pragma strict
+private var instructor : boolean = false;
+var failedPrefab : GameObject;
+public var failedSpawn : GameObject;
 
 function Start () {
 	
@@ -16,6 +19,15 @@ function OnCollisionEnter (hit : Collision)
 		
 		hit.gameObject.GetComponent(PlayerAnimationScript).DieSprite();
 		hit.gameObject.GetComponent(PlayerScript).Death();
+		
+		if (instructor == false)
+			{
+				Debug.Log("Level Failed");
+				failedPrefab = GameObject.Instantiate(failedPrefab, failedSpawn.transform.position, failedPrefab.transform.rotation);
+				//Back = GameObject.Find("Back");
+				instructor = true;
+			}
+		
 		for (var platform : GameObject in GameObject.FindGameObjectsWithTag("Platform"))
 	    {
 			if(platform.GetComponent(PlatformScript) != null)
@@ -23,6 +35,7 @@ function OnCollisionEnter (hit : Collision)
 				platform.GetComponent(PlatformScript).setSpeed(0.0f);
 			}
 		}
+		
 		for (var platform : GameObject in GameObject.FindGameObjectsWithTag("Number"))
 		{
 			if(platform.GetComponent(PlatformScript) != null)

@@ -91,7 +91,7 @@ function FixedUpdate ()
 				marginOfError = Platform.transform.position.x +2.5 + Gap/2 - inkSpawn.transform.position.x;
 			}
 			inkSpawn.GetComponent(InkEnemyScript).Speed = platformSpeed;
-			//inkDueSpawn = false;
+			inkDueSpawn = false;
 		 }
 		 if (numberSpawning == true)
 		 {

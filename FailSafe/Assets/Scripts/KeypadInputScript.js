@@ -2,8 +2,8 @@
 
 private var curInput : String;
 
-var numbers: int[];
-var correctNumbers: int[];
+var numbers : int[];
+var correctNumbers : int[];
 
 var amountOfNumbers : int;
 var currentNumber = 0;
@@ -16,6 +16,9 @@ var Guesses : int = 3;
 public var life1 : GameObject;
 public var life2 : GameObject;
 public var life3 : GameObject;
+var failedPrefab : GameObject;
+var successPrefab : GameObject;
+var resultSpawn : GameObject;
 
 
 function Start () {
@@ -120,7 +123,8 @@ function Update () {
 					{
 						//Debug.Log("Correct!");
 						deleteAll();
-						Application.LoadLevel("Test Level");
+						successPrefab = GameObject.Instantiate(successPrefab, resultSpawn.transform.position, successPrefab.transform.rotation);
+						//Application.LoadLevel("Test Level");
 					}
 					else
 					{
@@ -171,10 +175,12 @@ function Update () {
 
 function FixedUpdate()
 {
-	if(Guesses<=0)
+	if(Guesses==0)
 	{
 		deleteAll();
-		Application.LoadLevel("Menu");
+		Guesses--;
+		failedPrefab = GameObject.Instantiate(failedPrefab, resultSpawn.transform.position, failedPrefab.transform.rotation);
+		//Application.LoadLevel("Menu");
 	}
 }
 function newNumber (incNumber : int)
