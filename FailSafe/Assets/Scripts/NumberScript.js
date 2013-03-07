@@ -10,6 +10,7 @@ var columnNumber = 0;
 var rowNumber = 0;
 var timer = 0;
 private var RandomNumber : int = 10;
+private var arrayPosition : int = -1;
 
 var correctNumbers : int[];
 
@@ -34,12 +35,16 @@ function Start () {
 
 }
 
+function setPosition ( arrayPosition : int)
+{
+	this.arrayPosition = arrayPosition;
+}
+
 function setNumber ( number : int , maxNumbers : int)
 {
 
 	RandomNumber = number;
 	this.maxNumbers = maxNumbers;
-	
 }
 
 function Update () {
@@ -66,17 +71,17 @@ function FixedUpdate ()
 	}
 }
 
-function OnCollisionEnter (hit : Collision)
+function OnTriggerEnter (hit : Collider)
 {
 	if(hit.gameObject.tag == "Player")
 	{
-		GameObject.Find("NumberGUI").GetComponent(NumberGUIScript).newNumber(RandomNumber);
+		GameObject.Find("NumberGUI").GetComponent(NumberGUIScript).newNumber(RandomNumber, arrayPosition);
 		Destroy(gameObject);
 	}
 	
 	if(hit.gameObject.name == "Ceiling")
 	{
-		GameObject.Find("NumberGUI").GetComponent(NumberGUIScript).missedNumber(RandomNumber);
+		GameObject.Find("NumberGUI").GetComponent(NumberGUIScript).missedNumber(RandomNumber, arrayPosition);
 		Destroy(gameObject);
 	}
 }

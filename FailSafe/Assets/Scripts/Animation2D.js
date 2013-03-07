@@ -11,6 +11,10 @@ var flip=false;
 	
 var currentAnimationRow=0;
 var currentAnimationColumn=0;
+var currentXFrame = 0;
+var currentYFrame = 0;
+
+var Timer = 0.0f;
 	
 private var currentAnimationIndex=0;
 
@@ -25,18 +29,21 @@ function StopAnimation()
 	currentAnimationIndex=0;
 }
 
+
 // Use this for initialization
 function Start () 
 {
 	SetSpriteAnimation(columnCount,rowCount,currentAnimationRow,currentAnimationColumn,framesPerSecond);
+	currentAnimationIndex = 0;
 }
 
 function SetSpriteAnimation(rowCount : int , columnCount : int , rowNumber : int , columnNumber : int , fps : float)
 {
 	//int index=currentAnimationIndex;
 		if (start){
-			currentAnimationIndex = parseInt(Time.time*fps);
+			currentAnimationIndex = parseInt(Timer*fps);
 			currentAnimationIndex = currentAnimationIndex%columnCount;
+			currentXFrame = currentAnimationIndex;
 			//currentAnimationIndex=index;
 		}
 		
@@ -44,6 +51,7 @@ function SetSpriteAnimation(rowCount : int , columnCount : int , rowNumber : int
 		
 		var uIndex : int = currentAnimationIndex%columnCount;
 		var vIndex : int = currentAnimationIndex/columnCount;
+		
 		
 		var offset : Vector2 = new Vector2((uIndex+columnNumber)*size.x,(1.0f-size.y)-(vIndex+rowNumber)*size.y);
 		if (flip){
@@ -75,4 +83,9 @@ function Update () {
     	renderer.material.SetTextureOffset ("_MainTex", offset);
     	renderer.material.SetTextureScale ("_MainTex", size);	*/
 
+}
+
+function FixedUpdate ()
+{
+	Timer += Time.deltaTime;
 }

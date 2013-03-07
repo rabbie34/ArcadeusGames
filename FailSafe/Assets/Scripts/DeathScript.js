@@ -1,11 +1,11 @@
 #pragma strict
 
 function Start () {
-
+	
 }
 
 function Update () {
-
+	
 }
 
 function OnCollisionEnter (hit : Collision)
@@ -13,8 +13,26 @@ function OnCollisionEnter (hit : Collision)
 	
 	if(hit.gameObject.tag == "Player")
 	{
+		
 		hit.gameObject.GetComponent(PlayerAnimationScript).DieSprite();
-		Destroy(hit.gameObject);
+		hit.gameObject.GetComponent(PlayerScript).Death();
+		for (var platform : GameObject in GameObject.FindGameObjectsWithTag("Platform"))
+	    {
+			if(platform.GetComponent(PlatformScript) != null)
+			{
+				platform.GetComponent(PlatformScript).setSpeed(0.0f);
+			}
+		}
+		for (var platform : GameObject in GameObject.FindGameObjectsWithTag("Number"))
+		{
+			if(platform.GetComponent(PlatformScript) != null)
+			{
+				platform.GetComponent(PlatformScript).setSpeed(0.0f);
+			}
+		}
+		GameObject.Find("Spawner").GetComponent(SpawnerScript).platformSpeed = 0.0f;
+		GameObject.Find("Spawner").GetComponent(SpawnerScript).numberSpawnTime = Mathf.Infinity;
+		GameObject.Find("Background").GetComponent(BackgroundScript).Speed = 0.0f;
 		
 		//Debug.Log("Player died");
 	}
@@ -23,9 +41,12 @@ function OnCollisionEnter (hit : Collision)
 		Destroy(hit.gameObject);
 		//Debug.Log("Platform removed");
 	}
-
-	
-	
-	
-
+	if(hit.gameObject.tag == "Enemy")
+	{
+		if(hit.gameObject.name == "BallEnemy(clone)")
+			GameObject.Find("Spawner").GetComponent(SpawnerScript).ballSpawning = true;
+		if(hit.gameObject.name == "InkEnemy(clone)")
+			GameObject.Find("Spawner").GetComponent(SpawnerScript).inkSpawning = true;
+		Destroy(hit.gameObject);
+	}
 }

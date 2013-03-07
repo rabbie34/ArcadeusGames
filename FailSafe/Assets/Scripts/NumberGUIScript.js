@@ -20,32 +20,46 @@ function Update () {
 
 }
 
-function newNumber (incNumber : int)
+function newNumber (incNumber : int, arrayPosition : int)
 {
-	numbers[currentNumber] = incNumber;
-	var newNumber : GameObject = GameObject.Instantiate(displayNumberPrefab, transform.position + Vector3(0.25f*currentNumber,0,0), displayNumberPrefab.transform.rotation);
-	spawnedNumbers[currentNumber] = newNumber;
-	newNumber.GetComponent(NumberScript).setNumber(incNumber, amountOfNumbers);
-	DontDestroyOnLoad(newNumber);
-	currentNumber++;
-	if (currentNumber >= amountOfNumbers)
+	if(arrayPosition != -1)
 	{
-		Application.LoadLevel("Key Pad");
+		numbers[arrayPosition] = incNumber;
+		var newNumber : GameObject = GameObject.Instantiate(displayNumberPrefab, transform.position + Vector3(0.25f*arrayPosition,0,0), displayNumberPrefab.transform.rotation);
+		spawnedNumbers[arrayPosition] = newNumber;
+		newNumber.GetComponent(NumberScript).setNumber(incNumber, amountOfNumbers);
+		DontDestroyOnLoad(newNumber);
+		currentNumber++;
+		if (currentNumber >= amountOfNumbers)
+		{
+			Application.LoadLevel("Key Pad");
+		}
+	}
+	else
+	{
+	
 	}
 	
 }
 
-function missedNumber (incNumber : int)
+function missedNumber (incNumber : int, arrayPosition : int)
 {
-	numbers[currentNumber] = incNumber;
-	var newNumber : GameObject = GameObject.Instantiate(displayNumberPrefab, transform.position + Vector3(0.25f*currentNumber,0,0), displayNumberPrefab.transform.rotation);
-	spawnedNumbers[currentNumber] = newNumber;
-	newNumber.GetComponent(NumberScript).setNumber(incNumber, amountOfNumbers);
-	DontDestroyOnLoad(newNumber);
-	currentNumber++;
-	if (currentNumber >= amountOfNumbers)
+	if(arrayPosition != -1)
 	{
-		Application.LoadLevel("Key Pad");
+		numbers[arrayPosition] = incNumber;
+		var newNumber : GameObject = GameObject.Instantiate(missedNumberPrefab, transform.position + Vector3(0.25f*arrayPosition,0,0), displayNumberPrefab.transform.rotation);
+		spawnedNumbers[arrayPosition] = newNumber;
+		newNumber.GetComponent(NumberScript).setNumber(incNumber, amountOfNumbers);
+		DontDestroyOnLoad(newNumber);
+		currentNumber++;
+		if (currentNumber >= amountOfNumbers)
+		{
+			Application.LoadLevel("Key Pad");
+		}
+	}
+	else
+	{
+	
 	}
 }
 

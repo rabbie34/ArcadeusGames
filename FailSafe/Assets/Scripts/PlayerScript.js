@@ -3,10 +3,14 @@
 var maxMoveSpeed = 3.0f;
 var moveAcc = 1.0f;
 var moveSpeed : float;
-private var screenEdge = 1.4f;
+private var screenEdge = 1.1f;
 private var buildTarget : String = "Keyboard";
 private var tilt : Vector3 = Vector3.zero;
 private var previousPosition : Vector3;
+private var playerIsDead : boolean = false;
+private var deathTimer = 0.0f;
+private var slowed : boolean = false;
+private var slowedTimer = 0.0f;
 
 
 // ANIMATION
@@ -23,16 +27,24 @@ function Start () {
 	
 	Facing = "Right";
 	playerAnimation = this.GetComponent(PlayerAnimationScript);
+	playerAnimation.SpawnSprite();
 	pauseScript = GameObject.Find("Main Camera").GetComponent(PauseScript);
 
 }
 
+function slowPlayer ( time : float)
+{
+	slowedTimer = time;
+}
+
 function Update () {
+
 	
-	if ( pauseScript.isPaused() == false )
+	if ( pauseScript.isPaused() == false && playerIsDead == false)
 	{
 		if (buildTarget == "Keyboard")
 		{
+		if(playerAnimation.curAnimation.Equals("Spawning") == false)
 			if (Input.GetKey(KeyCode.D))
 			{
 				//gameObject.transform.Translate(moveAcc*Time.deltaTime,0,0);
@@ -43,7 +55,7 @@ function Update () {
 					playerAnimation.RunSprite();
 				}
 			}
-	
+		if(playerAnimation.curAnimation.Equals("Spawning") == false)
 			if (Input.GetKey(KeyCode.A))
 			{
 				//gameObject.transform.Translate(-moveAcc*Time.deltaTime,0,0);
@@ -60,14 +72,15 @@ function Update () {
 		if (buildTarget == "Android")
 		{
 			tilt = Input.acceleration;
-			moveSpeed = -tilt.y*(Time.deltaTime*40)*6;
+			if(playerAnimation.curAnimation.Equals("Spawning") == false)
+			moveSpeed = tilt.x*(Time.deltaTime*40)*6;
 			//moveSpeed = (moveSpeed + (moveAcc * Time.deltaTime*40))*-tilt.y*3;
 			if(moveSpeed > 0.2 && gameObject.transform.rigidbody.velocity.y > -1)
 			{
 				playerAnimation.Facing = "Right";
 				playerAnimation.RunSprite();
 			} 
-			if(moveSpeed < 0.2 && gameObject.transform.rigidbody.velocity.y > -1)
+			if(moveSpeed < -0.2 && gameObject.transform.rigidbody.velocity.y > -1)
 			{
 				playerAnimation.Facing = "Left";
 				playerAnimation.RunSprite();
@@ -85,25 +98,62 @@ function Update () {
 	
 
 }
+function Death()
+{
+	playerIsDead = true;
+}
 
 function FixedUpdate ()
 {
-	if(moveSpeed != 0)
+	if(slowedTimer > 0.0f)
 	{
-		moveSpeed -= moveSpeed/5;
+		slowed  = true;
+		slowedTimer -= Time.deltaTime;
 	}
-	if(transform.position.x> screenEdge || transform.position.x < -screenEdge)
+	else
 	{
-		transform.position = Vector3(-transform.position.x,transform.position.y,0);
+		slowed = false;
 	}
-	if ( rigidbody.velocity.y < -0.5 )
+if(playerAnimation.curAnimation.Equals("Spawning") == false)
+	if(playerIsDead == true)
 	{
-		playerAnimation.FallSprite();
+		deathTimer+=Time.deltaTime;
+		if (deathTimer > 1.0f)
+		{
+			//load game over screen
+			
+		}
 	}
-	if ( rigidbody.velocity.y >= -0.5 && rigidbody.velocity.x > -1.0 && rigidbody.velocity.x < 1.0 )
+	else
 	{
-		playerAnimation.StandSprite();
+		if(moveSpeed != 0)
+		{
+			moveSpeed -= moveSpeed/5;
+		}
+		if(transform.position.x> screenEdge)
+		{
+			transform.position = Vector3(-screenEdge,transform.position.y,0);
+		}
+		if(transform.position.x < -screenEdge)
+		{
+			transform.position = Vector3(screenEdge,transform.position.y,0);
+		}
+		if ( rigidbody.velocity.y < -0.5 )
+		{
+			playerAnimation.FallSprite();
+		}
+		if ( rigidbody.velocity.y >= -0.5 && rigidbody.velocity.x > -1.0 && rigidbody.velocity.x < 1.0 )
+		{
+			playerAnimation.StandSprite();
+		}
+		if(slowed)
+		{
+			transform.Translate(moveSpeed/2 * Time.deltaTime,0,0,Space.World);
+		}
+		else
+		{
+			transform.Translate(moveSpeed * Time.deltaTime,0,0,Space.World);
+		}
+			
 	}
-	
-	transform.Translate(moveSpeed * Time.deltaTime,0,0,Space.World);
 }

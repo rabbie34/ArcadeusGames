@@ -13,7 +13,9 @@ var spawnedNumbers : GameObject[];
 var inputNumbers : GameObject[];
 var Answer : boolean = true;
 var Guesses : int = 3;
-
+public var life1 : GameObject;
+public var life2 : GameObject;
+public var life3 : GameObject;
 
 
 function Start () {
@@ -124,6 +126,18 @@ function Update () {
 					{
 						Guesses--;
 						Debug.Log("Wrong! "+ Guesses + " tries left!");
+						if (Guesses == 2)
+						{
+							life3.renderer.enabled = false;
+						}
+						if(Guesses == 1)
+						{
+							life2.renderer.enabled = false;
+						}
+						if(Guesses == 0)
+						{
+							life1.renderer.enabled = false;
+						}
 					}
 				}
 	

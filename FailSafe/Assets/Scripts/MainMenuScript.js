@@ -84,8 +84,7 @@ function Update () {
 				
 			if (hit.collider.gameObject==Back && instructor == true)
 			{
-				Debug.Log("Quit");
-				Application.Quit();
+				Debug.Log("Backed");
 				instructor = false;
 				Destroy(instructions);
 			}
