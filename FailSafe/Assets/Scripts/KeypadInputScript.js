@@ -17,7 +17,7 @@ public var life1 : GameObject;
 public var life2 : GameObject;
 public var life3 : GameObject;
 var failedPrefab : GameObject;
-var successPrefab : GameObject;
+var passPrefab : GameObject;
 var resultSpawn : GameObject;
 
 
@@ -123,7 +123,7 @@ function Update () {
 					{
 						//Debug.Log("Correct!");
 						deleteAll();
-						successPrefab = GameObject.Instantiate(successPrefab, resultSpawn.transform.position, successPrefab.transform.rotation);
+						passPrefab = GameObject.Instantiate(passPrefab, resultSpawn.transform.position, passPrefab.transform.rotation);
 						//Application.LoadLevel("Test Level");
 					}
 					else

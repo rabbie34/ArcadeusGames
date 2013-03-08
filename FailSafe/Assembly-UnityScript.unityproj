@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\BackgroundScript.js" />
      <Compile Include="Assets\Scripts\BallEnemyScript.js" />
      <Compile Include="Assets\Scripts\DeathScript.js" />
+     <Compile Include="Assets\Scripts\FailedScreenScript.js" />
      <Compile Include="Assets\Scripts\InkEnemyScript.js" />
      <Compile Include="Assets\Scripts\KeypadInputScript.js" />
      <Compile Include="Assets\Scripts\KeypadScript.js" />

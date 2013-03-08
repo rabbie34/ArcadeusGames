@@ -9,7 +9,7 @@ public var pauseMenu: GameObject;
 private var pauseScreen: GameObject;
 
 public var Resume: GameObject;
-
+var pauseClick: int = 0;
 
 function Start () 
 {
@@ -62,8 +62,8 @@ function Update ()
 	*/
 	if(Input.GetMouseButtonDown(0))
 	{	
-		
-		var pauseClick: int = 1;		
+		pauseClick = 1;
+			
 		var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		var hit : RaycastHit;	
 		
@@ -106,4 +106,13 @@ function Update ()
 function isPaused ()
 {
 	return gamePaused;
+}
+
+function unPause ()
+{
+	Time.timeScale = 1.0;
+	gamePaused = false;
+	pauseClick = 0;   
+	Debug.Log("unpaused");
+	Destroy(pauseScreen);
 }

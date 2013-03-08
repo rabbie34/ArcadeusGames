@@ -1,5 +1,5 @@
 #pragma strict
-private var instructor : boolean = false;
+var instructor : boolean = false;
 var failedPrefab : GameObject;
 public var failedSpawn : GameObject;
 
@@ -17,16 +17,13 @@ function OnCollisionEnter (hit : Collision)
 	if(hit.gameObject.tag == "Player")
 	{
 		
+		instructor = true;
 		hit.gameObject.GetComponent(PlayerAnimationScript).DieSprite();
 		hit.gameObject.GetComponent(PlayerScript).Death();
 		
-		if (instructor == false)
-			{
-				Debug.Log("Level Failed");
-				failedPrefab = GameObject.Instantiate(failedPrefab, failedSpawn.transform.position, failedPrefab.transform.rotation);
-				//Back = GameObject.Find("Back");
-				instructor = true;
-			}
+		Debug.Log("Level Failed");
+		failedPrefab = GameObject.Instantiate(failedPrefab, failedSpawn.transform.position, failedPrefab.transform.rotation);
+		//Back = GameObject.Find("Back");
 		
 		for (var platform : GameObject in GameObject.FindGameObjectsWithTag("Platform"))
 	    {
@@ -46,6 +43,7 @@ function OnCollisionEnter (hit : Collision)
 		GameObject.Find("Spawner").GetComponent(SpawnerScript).platformSpeed = 0.0f;
 		GameObject.Find("Spawner").GetComponent(SpawnerScript).numberSpawnTime = Mathf.Infinity;
 		GameObject.Find("Background").GetComponent(BackgroundScript).Speed = 0.0f;
+		GameObject.Find("BallEnemy(Clone)").GetComponent(Rigidbody).freezeRotation = true;
 		
 		//Debug.Log("Player died");
 	}
